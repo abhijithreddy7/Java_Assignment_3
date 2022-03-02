@@ -1,8 +1,7 @@
 import java.util.*;
-import java.util.Date;
 import java.net.*;
 
-public class TimeToPing {
+public class TimeToPing{
     public static void main(String args[]) throws UnknownHostException {
         System.out.println("Enter an IP Address");
         Scanner sc=new Scanner(System.in);
@@ -12,14 +11,14 @@ public class TimeToPing {
     static void calculatePingTime(String ipAddress) throws UnknownHostException{
         InetAddress ip;
         ip = InetAddress.getByName(ipAddress);
-        ArrayList<Long> time=new ArrayList<>();
+        ArrayList<Double> time=new ArrayList<>();
         int t=1;
         while(t<=5) {
-            long start = new Date().getTime();
+            double start = System.nanoTime();
             try {
                 if (ip.isReachable(5000)) {
-                    long finish = new Date().getTime();
-                    System.out.println("Ping Time : "+ (finish - start + "ms"));
+                    double finish = System.nanoTime();
+                    System.out.println("Ping Time : " + (finish - start) + " nano seconds");
                     time.add(finish - start);
                     t++;
                 } else {
@@ -34,12 +33,12 @@ public class TimeToPing {
         }
         System.out.println("Median Time to Ping is "+Median(time));
     }
-    public static double Median(ArrayList<Long> values) {
+    public static double Median(ArrayList<Double> values) {
         Collections.sort(values);
         if (values.size() % 2 == 1)
-            return values.get((values.size() + 1) / 2 - 1);
+            return values.get(((values.size() + 1) / 2) - 1);
         else {
-            double lower = values.get(values.size() / 2 - 1);
+            double lower = values.get((values.size() / 2) - 1);
             double upper = values.get(values.size() / 2);
 
             return (lower + upper) / 2;
